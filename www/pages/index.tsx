@@ -51,8 +51,8 @@ export default function Home({
       </Head>
 
       <main className={styles.main}>
-        {friends.map((friend: any) => (
-          <p>{friend.name}</p>
+        {friends.map((friend: any, i: number) => (
+          <p key={i}>{friend.name}</p>
         ))}
       </main>
 
