@@ -2,41 +2,28 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import { client } from "../utils/client";
 
 type Data = {
   friends: Record<string, string>[];
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  let friends;
-
-  try {
-    const response = await fetch(
-      process.env.NEXT_PUBLIC_HASURA_PROJECT_ENDPOINT as string,
-      {
-        method: "POST",
-        headers: {
-          "x-hasura-admin-secret": process.env.HASURA_ADMIN_SECRET as string,
-        },
-        body: JSON.stringify({
-          query: `query {
-          friend {
-            name
-          }
-        }`,
-        }),
-      }
-    );
-
-    const result = await response.json();
-    const data = result.data;
-    friends = data.friend;
-  } catch (e) {
-    console.log(e);
+const QUERY = `query {
+  friend {
+    name
   }
-  return {
-    props: { friends },
-  };
+}`;
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  return client
+    .query(QUERY)
+    .toPromise()
+    .then((d) => {
+      return { props: { friends: d.data.friend } };
+    })
+    .catch((e) => {
+      return { props: {} };
+    });
 };
 
 export default function Home({
