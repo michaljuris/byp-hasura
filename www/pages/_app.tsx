@@ -1,7 +1,7 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import withUrql from "../utils/client";
-import Header from "./components/Header";
+import Header from "../components/Header";
 import { ThemeProvider } from "next-themes";
 
 function App({ Component, pageProps }: AppProps) {
