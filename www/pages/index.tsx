@@ -1,34 +1,23 @@
+import {
+  GetServerSideProps,
+  InferGetServerSidePropsType,
+  NextPage,
+} from "next";
 import Head from "next/head";
 import Image from "next/image";
+import {
+  GetFriends,
+  GetFriendsQuery,
+  GetFriendsQueryVariables,
+} from "../generated/graphql";
 import styles from "../styles/Home.module.css";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { client } from "../utils/client";
 
-type Data = {
-  friends: Record<string, string>[];
-};
+interface Props {
+  friends: GetFriendsQuery["friend"];
+}
 
-const QUERY = `query {
-  friend {
-    name
-  }
-}`;
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  return client
-    .query(QUERY)
-    .toPromise()
-    .then((d) => {
-      return { props: { friends: d.data.friend } };
-    })
-    .catch((e) => {
-      return { props: {} };
-    });
-};
-
-export default function Home({
-  friends,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+const Home: NextPage<Props> = ({ friends }) => {
   return (
     <div className={styles.container}>
       <Head>
@@ -39,7 +28,7 @@ export default function Home({
 
       <main className={styles.main}>
         {friends.map((friend: any, i: number) => (
-          <p key={i}>{friend.name}</p>
+          <p key={friend.id}>{friend.name}</p>
         ))}
       </main>
 
@@ -57,4 +46,18 @@ export default function Home({
       </footer>
     </div>
   );
-}
+};
+
+export default Home;
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  return client
+    .query<GetFriendsQuery, GetFriendsQueryVariables>(GetFriends)
+    .toPromise()
+    .then((d) => {
+      return { props: { friends: d.data?.friend } };
+    })
+    .catch((e) => {
+      return { props: {} };
+    });
+};
