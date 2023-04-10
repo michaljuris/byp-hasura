@@ -30,6 +30,7 @@ services:
       HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
       HASURA_JWT_SECRET_KEY: this-is-a-generic-HS256-secret-key-and-you-should-really-chnage-it
       HASURA_JWT_SECRET_TYPE: HS256
+      ACTION_BASE_HANDLER: http://host.docker.internal:3000
 volumes:
   db_data:
 

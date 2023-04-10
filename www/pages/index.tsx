@@ -22,7 +22,7 @@ const Home: NextPage<Props> = ({ friends }) => {
 
       <main>
         {friends.map((friend: any, i: number) => (
-          <p key={friend.id}>{friend.name}</p>
+          <p key={friend.id}>{friend.username}</p>
         ))}
       </main>
     </div>
