@@ -87,10 +87,12 @@ export type Friend = {
   __typename?: 'friend';
   id: Scalars['Int'];
   name: Scalars['String'];
+  password?: Maybe<Scalars['String']>;
   /** An array relationship */
   pizza_orders: Array<Pizza_Order>;
   /** An aggregate relationship */
   pizza_orders_aggregate: Pizza_Order_Aggregate;
+  username: Scalars['String'];
 };
 
 
@@ -156,14 +158,18 @@ export type Friend_Bool_Exp = {
   _or?: InputMaybe<Array<Friend_Bool_Exp>>;
   id?: InputMaybe<Int_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
+  password?: InputMaybe<String_Comparison_Exp>;
   pizza_orders?: InputMaybe<Pizza_Order_Bool_Exp>;
   pizza_orders_aggregate?: InputMaybe<Pizza_Order_Aggregate_Bool_Exp>;
+  username?: InputMaybe<String_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "friend" */
 export enum Friend_Constraint {
   /** unique or primary key constraint on columns "id" */
-  FriendPkey = 'friend_pkey'
+  FriendPkey = 'friend_pkey',
+  /** unique or primary key constraint on columns "username" */
+  FriendUsernameKey = 'friend_username_key'
 }
 
 /** input type for incrementing numeric columns in table "friend" */
@@ -175,7 +181,9 @@ export type Friend_Inc_Input = {
 export type Friend_Insert_Input = {
   id?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
   pizza_orders?: InputMaybe<Pizza_Order_Arr_Rel_Insert_Input>;
+  username?: InputMaybe<Scalars['String']>;
 };
 
 /** aggregate max on columns */
@@ -183,6 +191,8 @@ export type Friend_Max_Fields = {
   __typename?: 'friend_max_fields';
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
+  password?: Maybe<Scalars['String']>;
+  username?: Maybe<Scalars['String']>;
 };
 
 /** aggregate min on columns */
@@ -190,6 +200,8 @@ export type Friend_Min_Fields = {
   __typename?: 'friend_min_fields';
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
+  password?: Maybe<Scalars['String']>;
+  username?: Maybe<Scalars['String']>;
 };
 
 /** response of any mutation on the table "friend" */
@@ -219,7 +231,9 @@ export type Friend_On_Conflict = {
 export type Friend_Order_By = {
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
+  password?: InputMaybe<Order_By>;
   pizza_orders_aggregate?: InputMaybe<Pizza_Order_Aggregate_Order_By>;
+  username?: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: friend */
@@ -232,13 +246,19 @@ export enum Friend_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Name = 'name'
+  Name = 'name',
+  /** column name */
+  Password = 'password',
+  /** column name */
+  Username = 'username'
 }
 
 /** input type for updating data in table "friend" */
 export type Friend_Set_Input = {
   id?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
+  username?: InputMaybe<Scalars['String']>;
 };
 
 /** aggregate stddev on columns */
@@ -271,6 +291,8 @@ export type Friend_Stream_Cursor_Input = {
 export type Friend_Stream_Cursor_Value_Input = {
   id?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
+  username?: InputMaybe<Scalars['String']>;
 };
 
 /** aggregate sum on columns */
@@ -284,7 +306,11 @@ export enum Friend_Update_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Name = 'name'
+  Name = 'name',
+  /** column name */
+  Password = 'password',
+  /** column name */
+  Username = 'username'
 }
 
 export type Friend_Updates = {
@@ -2186,12 +2212,44 @@ export type Subscription_RootPizza_Topping_StreamArgs = {
   where?: InputMaybe<Pizza_Topping_Bool_Exp>;
 };
 
+export type InsertFriendOneMutationVariables = Exact<{
+  username?: InputMaybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type InsertFriendOneMutation = { __typename?: 'mutation_root', insert_friend_one?: { __typename?: 'friend', id: number, username: string } | null };
+
+export type CheckFriendQueryVariables = Exact<{
+  username?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type CheckFriendQuery = { __typename?: 'query_root', friend: Array<{ __typename?: 'friend', id: number, username: string, password?: string | null }> };
+
 export type GetFriendsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetFriendsQuery = { __typename?: 'query_root', friend: Array<{ __typename?: 'friend', name: string, id: number }> };
 
 
+export const InsertFriendOne = gql`
+    mutation InsertFriendOne($username: String, $password: String) {
+  insert_friend_one(object: {username: $username, password: $password}) {
+    id
+    username
+  }
+}
+    `;
+export const CheckFriend = gql`
+    query CheckFriend($username: String) {
+  friend(where: {username: {_eq: $username}}) {
+    id
+    username
+    password
+  }
+}
+    `;
 export const GetFriends = gql`
     query GetFriends {
   friend {
@@ -2236,6 +2294,14 @@ export default {
                 "kind": "SCALAR",
                 "name": "Any"
               }
+            },
+            "args": []
+          },
+          {
+            "name": "password",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
             },
             "args": []
           },
@@ -2364,6 +2430,17 @@ export default {
                 }
               }
             ]
+          },
+          {
+            "name": "username",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
           }
         ],
         "interfaces": []
@@ -2565,6 +2642,22 @@ export default {
               "name": "Any"
             },
             "args": []
+          },
+          {
+            "name": "password",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "username",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
           }
         ],
         "interfaces": []
@@ -2583,6 +2676,22 @@ export default {
           },
           {
             "name": "name",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "password",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "username",
             "type": {
               "kind": "SCALAR",
               "name": "Any"
@@ -7864,6 +7973,31 @@ export default {
   }
 } as unknown as IntrospectionQuery;
 
+export const InsertFriendOneDocument = gql`
+    mutation InsertFriendOne($username: String, $password: String) {
+  insert_friend_one(object: {username: $username, password: $password}) {
+    id
+    username
+  }
+}
+    `;
+
+export function useInsertFriendOneMutation() {
+  return Urql.useMutation<InsertFriendOneMutation, InsertFriendOneMutationVariables>(InsertFriendOneDocument);
+};
+export const CheckFriendDocument = gql`
+    query CheckFriend($username: String) {
+  friend(where: {username: {_eq: $username}}) {
+    id
+    username
+    password
+  }
+}
+    `;
+
+export function useCheckFriendQuery(options?: Omit<Urql.UseQueryArgs<CheckFriendQueryVariables>, 'query'>) {
+  return Urql.useQuery<CheckFriendQuery, CheckFriendQueryVariables>({ query: CheckFriendDocument, ...options });
+};
 export const GetFriendsDocument = gql`
     query GetFriends {
   friend {
