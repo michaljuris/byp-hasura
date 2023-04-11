@@ -16,6 +16,9 @@ actions:
         template_engine: Kriti
         url: '{{$base_url}}/api/actions/login'
         version: 2
+    permissions:
+      - role: user
+      - role: anonymous
   - name: signup
     definition:
       kind: synchronous
