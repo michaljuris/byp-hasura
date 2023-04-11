@@ -36,6 +36,8 @@ actions:
         template_engine: Kriti
         url: '{{$base_url}}/api/actions/signup'
         version: 2
+    permissions:
+      - role: anonymous
 custom_types:
   enums: []
   input_objects: []

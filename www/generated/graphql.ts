@@ -13,6 +13,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  timestamptz: any;
   uuid: any;
 };
 
@@ -686,7 +687,9 @@ export enum Order_By {
 /** columns and relationships of "pizza" */
 export type Pizza = {
   __typename?: 'pizza';
+  created_at?: Maybe<Scalars['timestamptz']>;
   id: Scalars['Int'];
+  original_friend: Scalars['Int'];
   /** An array relationship */
   pizza_orders: Array<Pizza_Order>;
   /** An aggregate relationship */
@@ -696,6 +699,7 @@ export type Pizza = {
   /** An aggregate relationship */
   pizza_topping_pizzas_aggregate: Pizza_Topping_Pizza_Aggregate;
   title?: Maybe<Scalars['Int']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
 
@@ -772,6 +776,7 @@ export type Pizza_Aggregate_FieldsCountArgs = {
 export type Pizza_Avg_Fields = {
   __typename?: 'pizza_avg_fields';
   id?: Maybe<Scalars['Float']>;
+  original_friend?: Maybe<Scalars['Float']>;
   title?: Maybe<Scalars['Float']>;
 };
 
@@ -780,12 +785,15 @@ export type Pizza_Bool_Exp = {
   _and?: InputMaybe<Array<Pizza_Bool_Exp>>;
   _not?: InputMaybe<Pizza_Bool_Exp>;
   _or?: InputMaybe<Array<Pizza_Bool_Exp>>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   id?: InputMaybe<Int_Comparison_Exp>;
+  original_friend?: InputMaybe<Int_Comparison_Exp>;
   pizza_orders?: InputMaybe<Pizza_Order_Bool_Exp>;
   pizza_orders_aggregate?: InputMaybe<Pizza_Order_Aggregate_Bool_Exp>;
   pizza_topping_pizzas?: InputMaybe<Pizza_Topping_Pizza_Bool_Exp>;
   pizza_topping_pizzas_aggregate?: InputMaybe<Pizza_Topping_Pizza_Aggregate_Bool_Exp>;
   title?: InputMaybe<Int_Comparison_Exp>;
+  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "pizza" */
@@ -797,29 +805,39 @@ export enum Pizza_Constraint {
 /** input type for incrementing numeric columns in table "pizza" */
 export type Pizza_Inc_Input = {
   id?: InputMaybe<Scalars['Int']>;
+  original_friend?: InputMaybe<Scalars['Int']>;
   title?: InputMaybe<Scalars['Int']>;
 };
 
 /** input type for inserting data into table "pizza" */
 export type Pizza_Insert_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']>;
   id?: InputMaybe<Scalars['Int']>;
+  original_friend?: InputMaybe<Scalars['Int']>;
   pizza_orders?: InputMaybe<Pizza_Order_Arr_Rel_Insert_Input>;
   pizza_topping_pizzas?: InputMaybe<Pizza_Topping_Pizza_Arr_Rel_Insert_Input>;
   title?: InputMaybe<Scalars['Int']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']>;
 };
 
 /** aggregate max on columns */
 export type Pizza_Max_Fields = {
   __typename?: 'pizza_max_fields';
+  created_at?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['Int']>;
+  original_friend?: Maybe<Scalars['Int']>;
   title?: Maybe<Scalars['Int']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
 /** aggregate min on columns */
 export type Pizza_Min_Fields = {
   __typename?: 'pizza_min_fields';
+  created_at?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['Int']>;
+  original_friend?: Maybe<Scalars['Int']>;
   title?: Maybe<Scalars['Int']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
 /** response of any mutation on the table "pizza" */
@@ -949,10 +967,13 @@ export type Pizza_Order_Bool_Exp = {
 
 /** Ordering options when selecting data from "pizza". */
 export type Pizza_Order_By = {
+  created_at?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  original_friend?: InputMaybe<Order_By>;
   pizza_orders_aggregate?: InputMaybe<Pizza_Order_Aggregate_Order_By>;
   pizza_topping_pizzas_aggregate?: InputMaybe<Pizza_Topping_Pizza_Aggregate_Order_By>;
   title?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
 };
 
 /** unique or primary key constraints on table "pizza_order" */
@@ -1200,21 +1221,31 @@ export type Pizza_Pk_Columns_Input = {
 /** select columns of table "pizza" */
 export enum Pizza_Select_Column {
   /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
   Id = 'id',
   /** column name */
-  Title = 'title'
+  OriginalFriend = 'original_friend',
+  /** column name */
+  Title = 'title',
+  /** column name */
+  UpdatedAt = 'updated_at'
 }
 
 /** input type for updating data in table "pizza" */
 export type Pizza_Set_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']>;
   id?: InputMaybe<Scalars['Int']>;
+  original_friend?: InputMaybe<Scalars['Int']>;
   title?: InputMaybe<Scalars['Int']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']>;
 };
 
 /** aggregate stddev on columns */
 export type Pizza_Stddev_Fields = {
   __typename?: 'pizza_stddev_fields';
   id?: Maybe<Scalars['Float']>;
+  original_friend?: Maybe<Scalars['Float']>;
   title?: Maybe<Scalars['Float']>;
 };
 
@@ -1222,6 +1253,7 @@ export type Pizza_Stddev_Fields = {
 export type Pizza_Stddev_Pop_Fields = {
   __typename?: 'pizza_stddev_pop_fields';
   id?: Maybe<Scalars['Float']>;
+  original_friend?: Maybe<Scalars['Float']>;
   title?: Maybe<Scalars['Float']>;
 };
 
@@ -1229,6 +1261,7 @@ export type Pizza_Stddev_Pop_Fields = {
 export type Pizza_Stddev_Samp_Fields = {
   __typename?: 'pizza_stddev_samp_fields';
   id?: Maybe<Scalars['Float']>;
+  original_friend?: Maybe<Scalars['Float']>;
   title?: Maybe<Scalars['Float']>;
 };
 
@@ -1242,14 +1275,18 @@ export type Pizza_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Pizza_Stream_Cursor_Value_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']>;
   id?: InputMaybe<Scalars['Int']>;
+  original_friend?: InputMaybe<Scalars['Int']>;
   title?: InputMaybe<Scalars['Int']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']>;
 };
 
 /** aggregate sum on columns */
 export type Pizza_Sum_Fields = {
   __typename?: 'pizza_sum_fields';
   id?: Maybe<Scalars['Int']>;
+  original_friend?: Maybe<Scalars['Int']>;
   title?: Maybe<Scalars['Int']>;
 };
 
@@ -1848,9 +1885,15 @@ export type Pizza_Topping_Variance_Fields = {
 /** update columns of table "pizza" */
 export enum Pizza_Update_Column {
   /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
   Id = 'id',
   /** column name */
-  Title = 'title'
+  OriginalFriend = 'original_friend',
+  /** column name */
+  Title = 'title',
+  /** column name */
+  UpdatedAt = 'updated_at'
 }
 
 export type Pizza_Updates = {
@@ -1865,6 +1908,7 @@ export type Pizza_Updates = {
 export type Pizza_Var_Pop_Fields = {
   __typename?: 'pizza_var_pop_fields';
   id?: Maybe<Scalars['Float']>;
+  original_friend?: Maybe<Scalars['Float']>;
   title?: Maybe<Scalars['Float']>;
 };
 
@@ -1872,6 +1916,7 @@ export type Pizza_Var_Pop_Fields = {
 export type Pizza_Var_Samp_Fields = {
   __typename?: 'pizza_var_samp_fields';
   id?: Maybe<Scalars['Float']>;
+  original_friend?: Maybe<Scalars['Float']>;
   title?: Maybe<Scalars['Float']>;
 };
 
@@ -1879,6 +1924,7 @@ export type Pizza_Var_Samp_Fields = {
 export type Pizza_Variance_Fields = {
   __typename?: 'pizza_variance_fields';
   id?: Maybe<Scalars['Float']>;
+  original_friend?: Maybe<Scalars['Float']>;
   title?: Maybe<Scalars['Float']>;
 };
 
@@ -2225,6 +2271,19 @@ export type Subscription_RootPizza_Topping_StreamArgs = {
   where?: InputMaybe<Pizza_Topping_Bool_Exp>;
 };
 
+/** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
+export type Timestamptz_Comparison_Exp = {
+  _eq?: InputMaybe<Scalars['timestamptz']>;
+  _gt?: InputMaybe<Scalars['timestamptz']>;
+  _gte?: InputMaybe<Scalars['timestamptz']>;
+  _in?: InputMaybe<Array<Scalars['timestamptz']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _lt?: InputMaybe<Scalars['timestamptz']>;
+  _lte?: InputMaybe<Scalars['timestamptz']>;
+  _neq?: InputMaybe<Scalars['timestamptz']>;
+  _nin?: InputMaybe<Array<Scalars['timestamptz']>>;
+};
+
 export type InsertFriendOneMutationVariables = Exact<{
   username?: InputMaybe<Scalars['String']>;
   password?: InputMaybe<Scalars['String']>;
@@ -2244,6 +2303,22 @@ export type GetFriendsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetFriendsQuery = { __typename?: 'query_root', friend: Array<{ __typename?: 'friend', username: string, id: number }> };
+
+export type LoginMutationVariables = Exact<{
+  username: Scalars['String'];
+  password: Scalars['String'];
+}>;
+
+
+export type LoginMutation = { __typename?: 'mutation_root', login?: { __typename?: 'FriendOutput', username?: string | null, token?: string | null, id?: any | null } | null };
+
+export type SignupMutationVariables = Exact<{
+  username: Scalars['String'];
+  password: Scalars['String'];
+}>;
+
+
+export type SignupMutation = { __typename?: 'mutation_root', signup?: { __typename?: 'FriendOutput', username?: string | null, token?: string | null, id?: any | null } | null };
 
 
 export const InsertFriendOne = gql`
@@ -2267,6 +2342,24 @@ export const GetFriends = gql`
     query GetFriends {
   friend {
     username
+    id
+  }
+}
+    `;
+export const Login = gql`
+    mutation Login($username: String!, $password: String!) {
+  login(password: $username, username: $password) {
+    username
+    token
+    id
+  }
+}
+    `;
+export const Signup = gql`
+    mutation Signup($username: String!, $password: String!) {
+  signup(username: $username, password: $password) {
+    username
+    token
     id
   }
 }
@@ -3927,7 +4020,26 @@ export default {
         "name": "pizza",
         "fields": [
           {
+            "name": "created_at",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
             "name": "id",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "original_friend",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
@@ -4196,6 +4308,14 @@ export default {
               "name": "Any"
             },
             "args": []
+          },
+          {
+            "name": "updated_at",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
           }
         ],
         "interfaces": []
@@ -4376,6 +4496,14 @@ export default {
             "args": []
           },
           {
+            "name": "original_friend",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
             "name": "title",
             "type": {
               "kind": "SCALAR",
@@ -4391,6 +4519,14 @@ export default {
         "name": "pizza_max_fields",
         "fields": [
           {
+            "name": "created_at",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
             "name": "id",
             "type": {
               "kind": "SCALAR",
@@ -4399,7 +4535,23 @@ export default {
             "args": []
           },
           {
+            "name": "original_friend",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
             "name": "title",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "updated_at",
             "type": {
               "kind": "SCALAR",
               "name": "Any"
@@ -4414,6 +4566,14 @@ export default {
         "name": "pizza_min_fields",
         "fields": [
           {
+            "name": "created_at",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
             "name": "id",
             "type": {
               "kind": "SCALAR",
@@ -4422,7 +4582,23 @@ export default {
             "args": []
           },
           {
+            "name": "original_friend",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
             "name": "title",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "updated_at",
             "type": {
               "kind": "SCALAR",
               "name": "Any"
@@ -5054,6 +5230,14 @@ export default {
             "args": []
           },
           {
+            "name": "original_friend",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
             "name": "title",
             "type": {
               "kind": "SCALAR",
@@ -5070,6 +5254,14 @@ export default {
         "fields": [
           {
             "name": "id",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "original_friend",
             "type": {
               "kind": "SCALAR",
               "name": "Any"
@@ -5100,6 +5292,14 @@ export default {
             "args": []
           },
           {
+            "name": "original_friend",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
             "name": "title",
             "type": {
               "kind": "SCALAR",
@@ -5116,6 +5316,14 @@ export default {
         "fields": [
           {
             "name": "id",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "original_friend",
             "type": {
               "kind": "SCALAR",
               "name": "Any"
@@ -6277,6 +6485,14 @@ export default {
             "args": []
           },
           {
+            "name": "original_friend",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
             "name": "title",
             "type": {
               "kind": "SCALAR",
@@ -6300,6 +6516,14 @@ export default {
             "args": []
           },
           {
+            "name": "original_friend",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
             "name": "title",
             "type": {
               "kind": "SCALAR",
@@ -6316,6 +6540,14 @@ export default {
         "fields": [
           {
             "name": "id",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "original_friend",
             "type": {
               "kind": "SCALAR",
               "name": "Any"
@@ -8097,4 +8329,30 @@ export const GetFriendsDocument = gql`
 
 export function useGetFriendsQuery(options?: Omit<Urql.UseQueryArgs<GetFriendsQueryVariables>, 'query'>) {
   return Urql.useQuery<GetFriendsQuery, GetFriendsQueryVariables>({ query: GetFriendsDocument, ...options });
+};
+export const LoginDocument = gql`
+    mutation Login($username: String!, $password: String!) {
+  login(password: $username, username: $password) {
+    username
+    token
+    id
+  }
+}
+    `;
+
+export function useLoginMutation() {
+  return Urql.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument);
+};
+export const SignupDocument = gql`
+    mutation Signup($username: String!, $password: String!) {
+  signup(username: $username, password: $password) {
+    username
+    token
+    id
+  }
+}
+    `;
+
+export function useSignupMutation() {
+  return Urql.useMutation<SignupMutation, SignupMutationVariables>(SignupDocument);
 };

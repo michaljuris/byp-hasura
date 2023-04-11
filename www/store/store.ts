@@ -1,5 +1,14 @@
 import create from "zustand";
 import { devtools, persist } from "zustand/middleware";
+import { client } from "../utils/client";
+import {
+  Login,
+  LoginMutation,
+  LoginMutationVariables,
+  Signup,
+  SignupMutation,
+  SignupMutationVariables,
+} from "../generated/graphql";
 
 export enum AUTH {
   AUTHED = "authed",
@@ -27,23 +36,23 @@ const useStore = create<Byp>()(
         user: { authed: AUTH.NOT_AUTHED },
         signup: (username: string, password: string) => {
           console.log("Signing up user ", username);
-          // client
-          //   .mutation<SignupMutation, SignupMutationVariables>(Signup, {
-          //     username,
-          //     password,
-          //   })
-          //   .toPromise()
-          //   .then((d) => {
-          //     if (d.error) {
-          //       console.log(d.error.graphQLErrors);
-          //     } else {
-          //       if (d.data?.signup) {
-          //         const { token, id, username } = d.data?.signup;
-          //         Cookies.set("byp-user-id", id as string);
-          //         set({ user: { authed: AUTH.AUTHED, token, id, username } });
-          //       }
-          //     }
-          //   });
+          client
+            .mutation<SignupMutation, SignupMutationVariables>(Signup, {
+              username,
+              password,
+            })
+            .toPromise()
+            .then((d) => {
+              if (d.error) {
+                console.log(d.error.graphQLErrors);
+              } else {
+                if (d.data?.signup) {
+                  const { token, id, username } = d.data?.signup;
+                  // Cookies.set("byp-user-id", id as string);
+                  set({ user: { authed: AUTH.AUTHED, token, id, username } });
+                }
+              }
+            });
         },
         login: (username: string, password: string) => {
           console.log("Logging in user ", username);

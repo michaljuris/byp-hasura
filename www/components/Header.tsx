@@ -1,8 +1,10 @@
 import React from "react";
+import { useStore } from "../store/store";
 
 type Props = {};
 
 export default function Header({}: Props) {
+  const user = useStore((store) => store.user);
   return (
     <div className="navbar bg-base-100">
       <div className="flex-none">
@@ -25,6 +27,7 @@ export default function Header({}: Props) {
       <div className="flex-1">
         <a className="btn btn-ghost normal-case text-xl">daisyUI</a>
       </div>
+      <p>{user?.username && user.username}</p>
       <div className="flex-none">
         <button className="btn btn-square btn-ghost">
           <svg
